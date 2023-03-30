@@ -11,15 +11,15 @@ export class ChatGPT {
     this.role = builder.role
   }
 
-  public async chat(messages: string[]) {
+  public async chat(messages: string[]): Promise<string[]> {
     const { data } = await this.openai.createChatCompletion({
       model: this.model,
       messages: messages.map(message => ({ role: this.role, content: message })),
     })
 
-    const result = data.choices.map(choice => choice?.message?.content)
+    const result = data.choices.map(choice => choice?.message?.content).filter(x => x)
 
-    return result
+    return result as string[]
   }
 }
 
